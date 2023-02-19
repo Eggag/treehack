@@ -12,9 +12,10 @@
   <img src="{{ url_for('static', filename='cf.png') }}" class="image" />
   <h3>Find Duplicates</h3>
   <form action="/" method="post">
-    <textarea type="text" name="statement" placeholder="Enter the problem statement" required></textarea>
-    <textarea type="text" name="editorial" placeholder="Enter the editorial (optional)"></textarea>
-    <textarea type="text" name="tags" placeholder="Enter the Codeforces tags, separated by commas"></textarea>
+    <textarea type="text" name="statement" placeholder="Problem statement" required></textarea>
+    <textarea type="text" name="editorial" placeholder="Editorial" required></textarea>
+    <textarea type="text" name="tags" placeholder="Codeforces tags, separated by commas" required></textarea>
+    <textarea type="text" name="difficulty" placeholder="Estimated difficulty" required></textarea>
     <input type="submit" value="Find similar problems" />
   </form>
   {% if result %}
