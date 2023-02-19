@@ -69,7 +69,7 @@ def index():
 
 
 def compare_probs(rules, text1, text2):
-    result = prompt_api(generate_prompt(statement_comp, statement, prob["simplified"]["statement"]))
+    result = prompt_api(generate_prompt(rules, text1, text2))
     cur = prob["code"][0] + prob["code"][1] + ", "
     #print(result)
     #print(cur);
