@@ -10,6 +10,9 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 statement_comp = "Rate the similarity of the two given problems on a scale from 1 to 10, and output that rating enclosed in curly braces. Differences in wording, context, and details must be ignored completely – only focus on what the problems require you to find. For the problems to be similar, the specific steps and ideas for getting to the solution must be almost identical for both of them. Being in the same broad category does not mean the problems are similar, the category must be very specific."
 
+editorial_comp = "Rate the similarity of the two problem editorials on a scale from 1 to 10, and output that rating enclosed in curly braces. Differences in wording, context, and details must be ignored completely – only focus on what the insights and steps the editorials are describing for the solutoin. For the editorials to be similar, the specific steps and ideas for getting to the solution must be almost identical for both of them. Being in the same broad category does not mean the editorials are similar, the category must be very specific."
+
+
 #parse json stuff
 with open('./stuff2.json', 'r') as f:
     response = f.read()
@@ -52,7 +55,10 @@ def index():
             cnt += 1
             print(cnt)
             print(len(p))
-            if compare_probs(statement_comp, statement, prob["simplified"]["statement"]:
+            test1 = compare_probs(statement_comp, statement, prob["simplified"]["statement"]
+            test2 = compare_probs(editorial_comp, editorial, prob["simplified"]["editorial"]
+
+            if test1 and test2:
                 print(cur)
                 ans += cur
 
