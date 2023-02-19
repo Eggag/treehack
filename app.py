@@ -12,16 +12,20 @@ def index():
     if request.method == "POST":
         statement = request.form["statement"]
         editorial = request.form["editorial"]
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=generate_prompt(statement),
-            temperature=0.6,
-        )
-        return redirect(url_for("index", result=response.choices[0].text))
+        tags = request.form["tags"]
+        # apparently low temp means it is more focused on prompt
+        #response = openai.Completion.create(
+        #    model="text-davinci-003",
+        #    prompt=generate_prompt(statement),
+        #    temperature=0.6,
+        #)
+
+        ans = "" # ans is the string with the problems we output
+        return redirect(url_for("index", result=ans))
 
     result = request.args.get("result")
     return render_template("index.html", result=result)
 
 
-def generate_prompt(animal):
-    return """random prompt""".format(animal)
+def generate_prompt(x):
+    return """random prompt""".format(x)
