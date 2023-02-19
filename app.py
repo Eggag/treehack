@@ -8,15 +8,17 @@ import json
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-statement_comp = "Simplify the following problems by replacing all ideas with a purely mathematical description while being clear and concise in one paragraph. Then rate the similarity of the two given problems on a scale from 1 to 10, and output that rating enclosed in curly braces. Differences in wording, context, and details must be ignored completely – only focus on what the problems require you to find. For the problems to be similar, the specific steps and ideas for getting to the solution must be almost identical for both of them. Being in the same broad category does not mean the problems are similar, the category must be very specific."
+statement_comp = "Rate the similarity of the two given problems on a scale from 1 to 10, and output that rating enclosed in curly braces. Differences in wording, context, and details must be ignored completely – only focus on what the problems require you to find. For the problems to be similar, the specific steps and ideas for getting to the solution must be almost identical for both of them. Being in the same broad category does not mean the problems are similar, the category must be very specific."
 
 #parse json stuff
-with open('./stuff.json', 'r') as f:
+with open('./stuff2.json', 'r') as f:
     response = f.read()
     response = response.replace('\n', '')
     response = response.replace('}{', '},{')
     response = "[" + response + "]"
     data = json.loads(response) 
+
+data = data[0]
 
 @app.route("/", methods=("GET", "POST"))
 def index():
@@ -26,6 +28,9 @@ def index():
         editorial = request.form["editorial"]
         tags = request.form["tags"]
         difficulty = int(request.form["difficulty"])
+
+        statement = prompt_api(prompt_simplify_statement(statement))
+        editorial = prompt_api(prompt_simplify_editorial(editorial))
 
         p = []
         for problem in data:
@@ -47,13 +52,7 @@ def index():
             cnt += 1
             print(cnt)
             print(len(p))
-            response = openai.Completion.create(
-                model="text-davinci-003",
-                prompt=generate_prompt(statement_comp, statement, prob["statement"]),
-                temperature=0.8,
-                max_tokens = 200,
-            )
-            result = response.choices[0].text
+            result = prompt_api(generate_prompt(statement_comp, statement, prob["simplified"]["statement"]))
             cur = prob["code"][0] + prob["code"][1] + ", "
             print(result)
             print(cur);
@@ -70,6 +69,31 @@ def index():
     return render_template("index.html", result=result)
 
 
+def prompt_simplify(rules, text):
+    return """{}:
+
+{}
+""".format(rules, text)
+
+def prompt_simplify_statement(statement):
+    rules = "Simplify the following problem by replacing all ideas with a purely mathematical description while being clear and concise in one paragraph"
+    return prompt_simplify(rules, statement)
+
+def prompt_simplify_editorial(editorial):
+    rules = "Simplify the following editorial by replacing all ideas with a purely mathematical description while being clear and concise in one paragraph"
+    return prompt_simplify(rules, editorial)
+
 def generate_prompt(a, b, c):
     ret = a + "\n\n" + "Problem 1:\n" + b + "\n\n" + "Problem 2:\n" + c
     return ret
+
+def prompt_api(prompttext):
+    response = openai.Completion.create(
+        model = "text-davinci-003",
+        prompt=prompttext,
+        temperature=0.8,
+        max_tokens = 500
+    )
+
+    responsetext = response.choices[0].text
+    return responsetext
