@@ -37,6 +37,7 @@ def index():
 
         p = []
         for problem in data:
+            print(problem["code"][0])
             if(problem["difficulty"] == ""):
                 continue
             if(problem["difficulty"] >= difficulty - 300 and problem["difficulty"] <= difficulty + 300):
@@ -64,6 +65,10 @@ def index():
                 print(cur)
                 ans += cur
 
+        if(ans == ""):
+            ans = "No matching problems"
+        else:
+            ans = ans[0:-1]
         return redirect(url_for("index", result=ans))
 
     result = request.args.get("result")
