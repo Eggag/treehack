@@ -55,8 +55,8 @@ def index():
             cnt += 1
             print(cnt)
             print(len(p))
-            test1 = compare_probs(statement_comp, statement, prob["simplified"]["statement"]
-            test2 = compare_probs(editorial_comp, editorial, prob["simplified"]["editorial"]
+            test1 = compare_probs(statement_comp, statement, prob["simplified"]["statement"])
+            test2 = compare_probs(editorial_comp, editorial, prob["simplified"]["editorial"])
 
             if test1 and test2:
                 print(cur)
