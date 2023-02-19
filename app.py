@@ -60,7 +60,7 @@ def index():
 
             cur = prob["code"][0] + prob["code"][1] + ", "
 
-            if test1 and test2:
+            if test1:
                 print(cur)
                 ans += cur
 
