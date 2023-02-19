@@ -100,7 +100,7 @@ def main():
 
         data2.append(problem)
 
-        if len(data2) > 4:
+        if len(data2) > 10:
             break
 
     with open("stuff2.json", "w") as fp:
