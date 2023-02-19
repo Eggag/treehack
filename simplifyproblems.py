@@ -2,7 +2,7 @@ import openai
 import json
 import os
 
-openai.api_key = "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"
+openai.api_key = "uwuwu"
 
 #parse json stuff
 with open('./stuff.json', 'r') as f:
