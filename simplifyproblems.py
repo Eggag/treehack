@@ -2,7 +2,7 @@ import openai
 import json
 import os
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 #parse json stuff
 with open('./stuff.json', 'r') as f:
@@ -46,7 +46,7 @@ IDEAS
 """.format(rules, statement, editorial)
 
 def prompt_approaches(statement, editorial):
-    rules = "Give a bullet list of distinct approach ideas explained in one sentence one might use to solve the following problem using the ideas provided"
+    rules = "Give a bullet list of distinct approach ideas explained in one sentence one might use to solve the following problem using the ideas provided:"
     return prompt_analyze_simplified(rules, statement, editorial)
 
 def prompt_insights(statement, editorial):
@@ -70,8 +70,10 @@ def print_simplified(problem, param):
 {}
 """.format(param.upper(), text))
 
-
 def main():
+
+    data2 = []
+
     for problem in data:
         if not problem["editorial"]:
             continue
@@ -79,7 +81,8 @@ def main():
         problem["simplified"] = {}
         problem["simplified"]["statement"] = prompt_api(prompt_simplify_statement(problem["statement"]))
         problem["simplified"]["editorial"] = prompt_api(prompt_simplify_editorial(problem["editorial"]))
-        
+     
+        """
         problem["simplified"]["deconstruct"] = prompt_api(prompt_deconstruct_statement(problem["simplified"]["statement"]))
         problem["simplified"]["brute"] = prompt_api(prompt_brute(problem["simplified"]["statement"]))
 
@@ -93,5 +96,14 @@ def main():
         print_simplified(problem, "brute")
         print_simplified(problem, "approaches")
         print_simplified(problem, "insights")
-     
+        """
+
+        data2.append(problem)
+
+        if len(data2) > 4:
+            break
+
+    with open("stuff2.json", "w") as fp:
+        json.dump(data2, fp)
+
 main()
