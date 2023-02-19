@@ -52,22 +52,28 @@ def index():
             cnt += 1
             print(cnt)
             print(len(p))
-            result = prompt_api(generate_prompt(statement_comp, statement, prob["simplified"]["statement"]))
-            cur = prob["code"][0] + prob["code"][1] + ", "
-            print(result)
-            print(cur);
-            cnt += 1
-            ind = result.find("{")
-            if(ind != -1):
-                if(result[ind + 1] >= '0' and result[ind + 1] <= '9' and int(result[ind + 1]) >= 8):
-                    print(cur)
-                    ans += cur
+            if compare_probs(statement_comp, statement, prob["simplified"]["statement"]:
+                print(cur)
+                ans += cur
 
         return redirect(url_for("index", result=ans))
 
     result = request.args.get("result")
     return render_template("index.html", result=result)
 
+
+def compare_probs(rules, text1, text2):
+    result = prompt_api(generate_prompt(statement_comp, statement, prob["simplified"]["statement"]))
+    cur = prob["code"][0] + prob["code"][1] + ", "
+    #print(result)
+    #print(cur);
+    cnt += 1
+    ind = result.find("{")
+    if(ind != -1):
+        if(result[ind + 1] >= '0' and result[ind + 1] <= '9' and int(result[ind + 1]) >= 8):
+            return True
+
+    return False
 
 def prompt_simplify(rules, text):
     return """{}:
