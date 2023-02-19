@@ -70,7 +70,7 @@ def index():
     return render_template("index.html", result=result)
 
 
-def compare_probs(prob, rules, text1, text2):
+def compare_probs(rules, text1, text2):
     result = prompt_api(generate_prompt(rules, text1, text2))
     #print(result)
     #print(cur);
